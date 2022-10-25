@@ -121,7 +121,45 @@ $(document).ready(function() {
 	$('#writeBtn').on('click', function(e) {
 		e.preventDefault();
 		// 게시 할 내용
+		let writeTextArea = $('#writeTextArea').val();
+		let file = $('#file').val();
 		
+		if (writeTextArea == "") {
+			alert("내용을 입력해주세요");
+			return;
+		}
+		
+		if (file == "") {
+			alert("파일을 추가해주세요");
+			return;
+		}
+		
+		
+		let formData = new FormData();
+		formData.append('writeTextArea', writeTextArea);
+		formData.append('file', $('#file')[0].files[0]);
+		
+		$.ajax({
+			// request
+			type:"POST"
+			, url:"/post/create"
+			, data:formData
+			, encType:"multipart/form-data"
+			, processData: false	// 파일 업로드를 위한 '필수' 설정
+			, contentType: false
+			
+			// response
+			, success:function(data) {
+				if (data.code == 100) {	// 성공
+					alert("메모가 저장되었습니다.");
+				} else {
+					alert(data.errorMessage);
+				}
+			}
+			, error:function(e){
+				alert("메모 저장에 실패했습니다.");
+			}
+		});
 	});
 });
 </script>

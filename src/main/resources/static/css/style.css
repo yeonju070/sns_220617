@@ -3,6 +3,8 @@
 header {height:80px; background:#dcdcdc;}
 .header-box {height:100px;}
 .contents {height:auto}
+.contents-box {width:600px;}
+.post-list {height:500px;}
 footer {height:80px; background:#dcdcdc;}
 .footer-box {height:80px;}
 
