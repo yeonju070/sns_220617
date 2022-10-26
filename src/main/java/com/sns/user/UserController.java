@@ -40,17 +40,4 @@ public class UserController {
 		
 		return "redirect:/user/sign_in_view";	
 	}
-	
-	/*
-	 * 타임라인 화면
-	 */
-	@RequestMapping("/timeline_view")
-	public String timelineView(HttpSession session, Model model) {
-		Integer userId = (Integer)session.getAttribute("userId");
-		if (userId == null) {
-			return "redirect:/user/sign_in_view";
-		}
-		model.addAttribute("viewName", "timeline/timeline");
-		return "template/layout";
-	}
 }

@@ -52,7 +52,7 @@ $(document).ready(function() {
 		$.post(url, params)
 		.done(function(data) {	// 성공했을때 하는 행동
 			if (data.code == 100) {	// 성공
-				location.href = "/user/timeline_view";	// 글 목록 화면으로 이동
+				location.href = "/timeline/timeline_view";	// 글 목록 화면으로 이동
 			} else {
 				alert(data.errorMessage);
 			}

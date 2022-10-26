@@ -1,4 +1,4 @@
-package com.sns.post;
+package com.sns.timeline;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,9 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sns.post.bo.PostBO;
 
-@RequestMapping("/post")
+@RequestMapping("/timeline")
 @RestController
-public class PostRestController {
+public class TimelineRestController {
 	
 	@Autowired
 	private PostBO postBO;
@@ -27,14 +27,21 @@ public class PostRestController {
 			@RequestParam(value="file", required=false) MultipartFile file,
 			HttpSession session) {
 		String userLoginId = (String)session.getAttribute("userLoginId");
-		Integer userId = (Integer)session.getAttribute("userId"); 
+		Integer userId = (Integer)session.getAttribute("userId");
 		
 		int row = postBO.addPost(userId, userLoginId, writeTextArea, file);
 		
 		Map<String, Object> result = new HashMap<>();
+		
+		if (userId == null) {
+			result.put("code", 300);
+			result.put("errorMessage", "로그인을 해주세요");
+		    return result;
+		}
+		
 		if (row > 0) {
 			result.put("code", 100);
-			result.put("code", "success");
+			result.put("result", "success");
 		} else {
 			result.put("code", 400);
 			result.put("errorMessage", "게시글 업로드에 실패했습니다.");
