@@ -7,16 +7,17 @@ import com.sns.user.model.User;
 
 @Repository
 public interface UserDAO {
+	public int existLoginId(String loginId);
 	
-	public boolean existLoginId(String loginId);
-	
-	public void insertUser(
+	public int insertUser(
 			@Param("loginId") String loginId, 
 			@Param("password") String password, 
 			@Param("name") String name, 
 			@Param("email") String email);
 	
-	public User selectUserByLoginIdAndPassword(
-			@Param("loginId") String loginId,
+	public User selectUserByLoginIdPassword(
+			@Param("loginId") String loginId, 
 			@Param("password") String password);
+	
+	public User selectUserById(int id);
 }

@@ -3,24 +3,25 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sns.user.dao.UserDAO">
-	<select id="existLoginId" parameterType="string" resultType="boolean">
+	<select id="existLoginId" parameterType="string"
+		resultType="int">
 		SELECT
-			COUNT(*)
+			COUNT(1)
 		FROM
 			`user`
-		WHERE 
+		WHERE
 			`loginId` = #{loginId}
 	</select>
-	
+
 	<insert id="insertUser" parameterType="map">
 		INSERT INTO `user`
 		(
 			`loginId`
-			,`password`
-			,`name`
-			,`email`
-			,`createdAt`
-			,`updatedAt`
+			, `password`
+			, `name`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
 		)
 		VALUES
 		(
@@ -32,20 +33,37 @@
 			, NOW()
 		)
 	</insert>
-	<select id="selectUserByLoginIdAndPassword" parameterType="map" resultType="com.sns.user.model.User">
+
+	<select id="selectUserByLoginIdPassword" parameterType="map"
+		resultType="com.sns.user.model.User">
 		SELECT
 			`id`
 			,`loginId`
-			,`password`
-			,`name`
-			,`email`
-			,`createdAt`
-			,`updatedAt`
+			, `password`
+			, `name`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
 		FROM
 			`user`
 		WHERE
 			`loginId` = #{loginId}
-			AND
-			`password` = #{password}
+		AND `password` = #{password}
+	</select>
+
+	<select id="selectUserById" parameterType="int"
+		resultType="com.sns.user.model.User">
+		SELECT
+			`id`
+			,`loginId`
+			, `password`
+			, `name`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`user`
+		WHERE
+			`id` = #{id}
 	</select>
 </mapper>

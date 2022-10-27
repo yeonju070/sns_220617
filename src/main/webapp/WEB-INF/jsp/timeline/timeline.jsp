@@ -27,11 +27,11 @@
 		<%-- 타임라인 영역 --%>
 		<div class="timeline-box my-5">
 			<%-- 카드1 --%>
-			<c:forEach items="${postList}" var="post">
+			<c:forEach items="${cardList}" var="card">
 			<div class="card border rounded mt-3">
 				<%-- 글쓴이, 더보기(삭제) --%>
 				<div class="p-2 d-flex justify-content-between">
-					<span class="font-weight-bold">글쓴이</span>
+					<span class="font-weight-bold">${card.user.loginId}</span>
 					<a href="#" class="more-btn">
 						<img src="https://www.iconninja.com/files/860/824/939/more-icon.png" width="30">
 					</a>
@@ -39,7 +39,7 @@
 				
 				<%-- 카드 이미지 --%>
 				<div class="card-img">
-					<img src="${post.imagePath}" class="w-100" alt="본문 이미지">
+					<img src="${card.post.imagePath}" class="w-100" alt="본문 이미지">
 				</div>
 				
 				<%-- 좋아요 --%>
@@ -54,8 +54,8 @@
 				
 				<%-- 글 --%>
 				<div class="card-post m-3">
-					<span class="font-weight-bold">글쓴이명</span>
-					<span>${post.content}</span>
+					<span class="font-weight-bold">${card.user.loginId}</span>
+					<span>${card.post.content}</span>
 				</div>
 				
 				<%-- 댓글 --%>
@@ -64,20 +64,22 @@
 				</div>
 				<div class="card-comment-list m-2">
 					<%-- 댓글 목록 --%>
+					<c:forEach items="${card.commentList}" var="commentView">
 					<div class="card-comment m-1">
-						<span class="font-weight-bold">댓글쓴이:</span>
-						<span>댓글 내용</span>
+						<span class="font-weight-bold">${commentView.user.loginId}</span>
+						<span>${commentView.comment.content}</span>
 						
 						<%-- 댓글 삭제 버튼 --%>
 						<a href="#" class="commentDelBtn">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10px" height="10px">
 						</a>
 					</div>
+					</c:forEach>
 					
 					<%-- 댓글 쓰기 --%>
 					<div class="comment-write d-flex border-top mt-3">
 						<input type="text" class="form-control border-0 mr-2" placeholder="댓글 달기"> 
-						<button type="button" class="comment-btn btn btn-light" data-post-id="${post.id}">게시</button>
+						<button type="button" class="comment-btn btn btn-light" data-post-id="${card.post.id}">게시</button>
 					</div>
 				</div>
 			</div> <%--// 카드1 닫기 --%>
@@ -172,7 +174,29 @@ $(document).ready(function() {
 		// alert('sadf');
 		// 지금 클릭된 게시 버튼의 형제인 input 태그를 가져온다.(siblings)
 		let comment = $(this).siblings('input').val().trim();
-		alert(comment);
+		
+		if (comment == "") {
+			alert("댓글을 입력해주세요.");
+			return;
+		}
+		
+		$.ajax({
+			type:'POST'
+			,url:'/comment/create'
+			,data: {"postId":postId, "content":comment}
+			,success: function(data) {
+				if (data.code == 100) {
+					location.reload(); // 새로고침
+				} else if (data.code == 300) {
+					alert("로그인을 해주세요.");
+					location.href = "/user/sign_in_view";
+				}
+			}
+			,error: function(jqXHR, textStatus, errorThrown) {
+				let errorMsg = jqXHR.responseJSON.status;
+				alert(errorMsg + ":" + textStatus);
+			}
+		});
 	});
 });	// ready 끝
 </script>
