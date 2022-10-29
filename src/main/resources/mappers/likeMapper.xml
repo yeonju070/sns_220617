@@ -44,7 +44,7 @@
  		(
  			#{postId}
  			, #{userId}
- 			, now()
+ 			, NOW()
  		)
 	</insert>
 	<delete id="deleteLikeByPostIdUserId" parameterType="map">
