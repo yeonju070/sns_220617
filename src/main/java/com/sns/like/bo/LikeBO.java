@@ -13,10 +13,14 @@ public class LikeBO {
 	
 	public void likeToggle(int postId, int userId) {
 		// 좋아요가 있는지 확인
+		if(likeDAO.existLike(postId, userId) == false) {
+			// 없으면 추가
+			likeDAO.insertLike(postId, userId);
+		} else {
+			// 있으면 제거
+			likeDAO.deleteLikeByPostIdUserId(postId, userId);			
+		}
 		
-		// 있으면 제거
-		
-		// 없으면 추가
 	}
 	
 	public int getLikeCountByPostIdOrUserId(int postId, Integer userId) {
