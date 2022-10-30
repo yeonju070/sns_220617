@@ -44,7 +44,7 @@
 				
 				<%-- 좋아요 --%>
 				<div class="card-like m-3">
-					<a href="#" class="like-btn" id="likeBtn">
+					<a href="#" class="like-btn">
 					<c:choose>
 						<c:when test="${card.filledLike eq true}">
 							<img src="https://www.iconninja.com/files/527/809/128/heart-icon.png" width="18px" height="18px" alt="filled heart">
@@ -210,8 +210,25 @@ $(document).ready(function() {
 	});
 	
 	// 좋아요를 클릭했을 때
-	$('#likeBtn').on('click', function() {
-		alert('asdf');
+	$('.like-btn').on('click', function() {
+		
+		$.ajax({
+			type: "put"
+			, url: "/like/likeToggle"
+			, data: {"postId":postId, "userId":userId}
+			, success: function(data) {
+				if (data.code == 100) {
+					location.reload();
+				} else if (data.code == 300) { // 비로그인 일 때
+					location.href = "/user/sign_in_view";
+				} else {
+					alert(data.errorMessage);
+				}
+			}
+			, error: function(e) {
+				alert("좋아요 저장에 실패했습니다. 관리자에게 문의해주세요.");
+			}
+		});
 	});
 }); //-- ready 끝
 </script>
