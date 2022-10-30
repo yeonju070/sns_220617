@@ -13,7 +13,7 @@ public class LikeBO {
 	
 	public void likeToggle(int postId, int userId) {
 		// 좋아요가 있는지 확인
-		if(likeDAO.existLike(postId, userId) == false) {
+		if (likeDAO.existLike(postId, userId) == false) {
 			// 없으면 추가
 			likeDAO.insertLike(postId, userId);
 		} else {

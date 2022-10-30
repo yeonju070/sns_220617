@@ -44,7 +44,7 @@
 				
 				<%-- 좋아요 --%>
 				<div class="card-like m-3">
-					<a href="#" class="like-btn">
+					<a href="#" class="like-btn" id="likeBtn">
 					<c:choose>
 						<c:when test="${card.filledLike eq true}">
 							<img src="https://www.iconninja.com/files/527/809/128/heart-icon.png" width="18px" height="18px" alt="filled heart">
@@ -209,5 +209,9 @@ $(document).ready(function() {
 		});
 	});
 	
+	// 좋아요를 클릭했을 때
+	$('#likeBtn').on('click', function() {
+		alert('asdf');
+	});
 }); //-- ready 끝
 </script>
