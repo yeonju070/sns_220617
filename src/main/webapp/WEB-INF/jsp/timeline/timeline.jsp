@@ -274,7 +274,7 @@ $(document).ready(function() {
 		
 		// ajax
 		$.ajax({
-			, type:"delete"
+			type:"delete"
 			, url:"/like/delete"
 			, data:{"postId": postId}
 			, success: function(data) {

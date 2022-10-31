@@ -46,30 +46,28 @@ public class PostBO {
 		return postDAO.selectPostList();
 	}
 	
-	public Post getPostByPostIdAndUserId(int postId, int userId) {
-		return postDAO.selectPostByPostIdAndUserId(postId, userId);
+	public Post getPostByPostId(int postId) {
+		return postDAO.selectPostByPostId(postId);
 	}
 	
-	public void deletePost(int postId, int userId) {
+	public void deletePostByPostIdAndUserId(int postId, int userId) {
 		// 기존글 가져오기
-		Post post = getPostByPostIdAndUserId(postId, userId);
+		Post post = getPostByPostId(postId);
 		if(post == null) {
 			log.warn("[delete post] 삭제할 게시글이 없습니다. postId:{}", postId);
 			return;
 		}
 		
 		// 이미지가 있으면 이미지 삭제
-		if (post.getImagePath() != null) {
-			fileManagerService.deleteFile(post.getImagePath());
-		}
+		fileManagerService.deleteFile(post.getImagePath());
 		
 		// 글 삭제
-		postDAO.deletePost(postId, userId);
+		postDAO.deletePostByPostIdAndUserId(postId, userId);
 		
 		// 좋아요들 삭제
-		likeBO.getLikeCountByPostId(postId);
+		likeBO.deleteLikeByPostId(postId);
 		
 		// 댓글들 삭제
-		commentBO.getCommentListByPostId(postId);
+		commentBO.deleteCommentByPostId(postId);
 	}
 }
