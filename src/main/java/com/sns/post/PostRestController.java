@@ -52,15 +52,21 @@ public class PostRestController {
 		return result;
 	}
 
-	@DeleteMapping("/like/post")
-	public Map<String, Object> deletePost(
+	@DeleteMapping("/delete")
+	public Map<String, Object> delete(
 			@RequestParam("postId") int postId,
-			@RequestParam("userId") int userId) {
+			HttpSession session) {
 		
-		// DB 삭제
-		
-		// 응답
 		Map<String, Object> result = new HashMap<>();
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 300);
+			result.put("errorMessage", "로그인을 다시 해주세요.");
+			return result;
+		}
+		
+		postBO.deletePostByPostIdAndUserId(postId, userId);
 		result.put("code", 100);
 		result.put("result", "success");
 		
