@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sns.comment.bo.CommentBO;
 import com.sns.common.FileManagerService;
 import com.sns.like.bo.LikeBO;
 import com.sns.post.dao.PostDAO;
@@ -23,6 +24,9 @@ public class PostBO {
 	
 	@Autowired
 	private LikeBO likeBO;
+	
+	@Autowired
+	private CommentBO commentBO;
 
 	@Autowired
 	private FileManagerService fileManagerService;
@@ -66,5 +70,6 @@ public class PostBO {
 		likeBO.getLikeCountByPostId(postId);
 		
 		// 댓글들 삭제
+		commentBO.getCommentListByPostId(postId);
 	}
 }
