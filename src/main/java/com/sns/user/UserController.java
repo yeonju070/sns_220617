@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class UserController {
 	
-	/*
+	/**
 	 * 회원가입 화면
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping("/sign_up_view")
 	public String signUpView(Model model) {
@@ -19,8 +21,10 @@ public class UserController {
 		return "template/layout";
 	}
 	
-	/*
+	/**
 	 * 로그인 화면
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping("/sign_in_view")
 	public String signInView(Model model) {
@@ -28,16 +32,18 @@ public class UserController {
 		return "template/layout";
 	}
 	
-	/*
+	/**
 	 * 로그아웃
+	 * @param session
+	 * @return
 	 */
 	@RequestMapping("/sign_out")
 	public String signOut(HttpSession session) {
-		// 로그아웃 -> 세션에 있는 모든 것을 비운다.
-		session.removeAttribute("userName");
+		// 로그아웃
 		session.removeAttribute("userLoginId");
+		session.removeAttribute("userName");
 		session.removeAttribute("userId");
-		
-		return "redirect:/user/sign_in_view";	
+		return "redirect:/timeline/timeline_view";
 	}
+	
 }

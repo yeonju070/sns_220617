@@ -5,7 +5,8 @@
 	<div class="contents-box">
 		<%-- 글쓰기 영역 --%>
 		<%-- 로그인된 상태에서만 보이게 조건 --%>
-		<div class="write-box border rounded mt-3">
+		<c:if test="${not empty userId}">
+		<div class="write-box border rounded mt-4">
 			<textarea id="writeTextArea" placeholder="내용을 입력해주세요" class="w-100 border-0"></textarea>
 				
 			<%-- 이미지 업로드를 위한 아이콘과 업로드 버튼을 한 행에 멀리 떨어뜨리기 위한 div --%>
@@ -23,6 +24,7 @@
 				<button id="writeBtn" class="btn btn-info">게시</button>
 			</div>
 		</div>
+		</c:if>
 		<%--// 글쓰기 영역 끝 --%>
 		
 		<%-- 타임라인 영역 --%>
@@ -54,7 +56,7 @@
 					<c:if test="${card.filledLike eq false}">
 						<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18px" height="18px" alt="empty heart">
 					</c:if>
-						좋아요 ${card.likeCount}개
+						좋아요 ${card.likeCount}
 					</a>
 				</div>
 				
@@ -76,7 +78,7 @@
 						<span>${commentView.comment.content}</span>
 						
 						<%-- 댓글 삭제 버튼 --%>
-						<a href="#" class="commentDelBtn">
+						<a href="#" class="comment-delBtn" data-post-id="${CommentView.Comment.id}">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10px" height="10px">
 						</a>
 					</div>
@@ -95,21 +97,21 @@
 
 <!-- Modal -->
 <div class="modal fade" id="modal">
-	<%-- modal-dialog-centered : 모달창을 수직 가운데 정렬, modal-sm : 작은 모달창 --%>
-  <div class="modal-dialog modal-dialog-centered modal-sm">
-  	<div class="modal-content">
-    	<%-- modal창에 내용 채워넣기 --%>
-    	<div class="text-center">
-    		<div class="py-3 border-bottom">
-	    		<a href="#" id="delPostBtn">삭제하기</a>
-	    	</div>
-	    	<div class="py-3">
-	    		<%-- data-dismiss="modal" 모달창 닫힘 --%>
-	    		<a href="#" data-dismiss="modal">취소</a>
-    		</div>
-    	</div>
-    </div>
-  </div>
+	<%-- modal-dialog-centered: 모달창을 수직 가운데 정렬, modal-sm: 작은 모달창 --%>
+	<div class="modal-dialog modal-dialog-centered modal-sm">
+		<div class="modal-content">
+      		<%-- Modal 창 안에 내용 채워넣기 --%>
+      		<div class="text-center">
+      			<div class="py-3 border-bottom">
+      				<a href="#" id="delPostBtn">삭제하기</a>
+      			</div>
+      			<div class="py-3">
+      				<%-- data-dismiss="modal" 모달창 닫힘 --%>
+      				<a href="#" data-dismiss="modal">취소</a>
+      			</div>
+      		</div>
+		</div>
+	</div>
 </div>
 
 <script>
@@ -267,19 +269,19 @@ $(document).ready(function() {
 	});
 	
 	// modal창 안에 있는 (글)삭제하기 버튼 클릭
+	// 모달창 안에있는 (글)삭제하기 버튼 클릭
 	$('#modal #delPostBtn').on('click', function(e) {
 		e.preventDefault();
-
+		
 		let postId = $('#modal').data('post-id');
 		
-		// ajax
+		// ajax 글삭제
 		$.ajax({
 			type:"delete"
 			, url:"/post/delete"
-			, data:{"postId": postId}
+			, data: {"postId":postId}
 			, success: function(data) {
-				if (data.code == 100) {
-					alert("삭제되었습니다.");
+				if (data.result == "success") {
 					location.reload();
 				} else {
 					alert(data.errorMessage);
@@ -289,6 +291,12 @@ $(document).ready(function() {
 				alert("삭제하는데 실패했습니다. 관리자에게 문의해주세요.");
 			}
 		});
+	});
+	
+	// 댓글 삭제
+	$('.comment-delBtn').on('click', function() {
+		let commentId = $(this).data('comment-id');
+		alert(commentId);
 	});
 }); //-- ready 끝
 </script>

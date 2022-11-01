@@ -39,19 +39,13 @@ public class PostRestController {
 			return result;
 		}
 		
-		int row = postBO.addPost(userId, userLoginId, content, file);
+		postBO.addPost(userId, userLoginId, content, file);
 		
-		if (row > 0) {
-			result.put("code", 100);
-			result.put("result", "success");
-		} else {
-			result.put("code", 400);
-			result.put("errorMessage", "게시글 업로드에 실패했습니다.");
-		}
-		
+		result.put("code", 100);
+		result.put("result", "success");
 		return result;
 	}
-
+	
 	@DeleteMapping("/delete")
 	public Map<String, Object> delete(
 			@RequestParam("postId") int postId,
@@ -72,4 +66,5 @@ public class PostRestController {
 		
 		return result;
 	}
+	
 }

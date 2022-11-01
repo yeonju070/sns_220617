@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
 <mapper namespace="com.sns.like.dao.LikeDAO">
-	<select id="selectLikeCountByPostIdOrUserId" parameterType="map"
-		 resultType="int">
+	<select id="selectLikeCountByPostIdOrUserId" parameterType="map" resultType="int">
 		SELECT
 			COUNT(1)
 		FROM
@@ -11,9 +11,10 @@
 		WHERE
 			`postId` = #{postId}
 			<if test="userId != null">
-				AND `userId` = #{userId}
+			AND `userId` = #{userId}
 			</if>
 	</select>
+
 	<select id="existLike" parameterType="map" resultType="boolean">
 		SELECT
 			COUNT(1)
@@ -44,9 +45,10 @@
  		(
  			#{postId}
  			, #{userId}
- 			, NOW()
+ 			, now()
  		)
 	</insert>
+	
 	<delete id="deleteLikeByPostIdUserId" parameterType="map">
 		DELETE
 		FROM
@@ -55,6 +57,7 @@
 			`postId` = #{postId}
 			AND `userId` = #{userId}
 	</delete>
+
 	<delete id="deleteLikeByPostId" parameterType="int">
 		DELETE
 		FROM

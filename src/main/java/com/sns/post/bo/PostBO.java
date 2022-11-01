@@ -27,39 +27,38 @@ public class PostBO {
 	
 	@Autowired
 	private CommentBO commentBO;
-
+	
 	@Autowired
-	private FileManagerService fileManagerService;
-
-	public int addPost(int userId, String userLoginId, String writeTextArea, MultipartFile file) {
-
+	private FileManagerService fileManager;
+	
+	public int addPost(int userId, String userLoginId, String content, MultipartFile file) {
 		String imagePath = null;
 		if (file != null) {
 			// 파일이 있을 때만 업로드 처리 => 서버에 업로드
-			imagePath = fileManagerService.saveFile(userLoginId, file);
+			imagePath = fileManager.saveFile(userLoginId, file);
 		}
-
-		return postDAO.insertPost(userId, userLoginId, writeTextArea, imagePath);
+		
+		return postDAO.insertPost(userId, content, imagePath);
 	}
-
+	
 	public List<Post> getPostList() {
 		return postDAO.selectPostList();
 	}
 	
 	public Post getPostByPostId(int postId) {
-		return postDAO.selectPostByPostId(postId);
+		return postDAO.selectPostById(postId);
 	}
 	
 	public void deletePostByPostIdAndUserId(int postId, int userId) {
 		// 기존글 가져오기
 		Post post = getPostByPostId(postId);
-		if(post == null) {
-			log.warn("[delete post] 삭제할 게시글이 없습니다. postId:{}", postId);
+		if (post == null) {
+			log.error("[delete post] postId:{}, userId:{}", postId, userId);
 			return;
 		}
 		
 		// 이미지가 있으면 이미지 삭제
-		fileManagerService.deleteFile(post.getImagePath());
+		fileManager.deleteFile(post.getImagePath());
 		
 		// 글 삭제
 		postDAO.deletePostByPostIdAndUserId(postId, userId);
