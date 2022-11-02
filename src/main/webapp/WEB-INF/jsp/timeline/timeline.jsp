@@ -68,7 +68,7 @@
 				
 				<%-- 댓글 --%>
 				<div class="card-comment-desc border-bottom">
-					<div class="ml-3 mb-1 font-weight-bold">댓글</div>
+					<div class="ml-3 mb-1 font-weight-bold">댓글 ${card.commentCount}</div>
 				</div>
 				<div class="card-comment-list m-2">
 					<%-- 댓글 목록 --%>
@@ -78,7 +78,7 @@
 						<span>${commentView.comment.content}</span>
 						
 						<%-- 댓글 삭제 버튼 --%>
-						<a href="#" class="comment-delBtn" data-post-id="${CommentView.Comment.id}">
+						<a href="#" class="comment-delBtn" data-comment-id="${commentView.comment.id}">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10px" height="10px">
 						</a>
 					</div>
@@ -294,9 +294,27 @@ $(document).ready(function() {
 	});
 	
 	// 댓글 삭제
-	$('.comment-delBtn').on('click', function() {
+	$('.comment-delBtn').on('click', function(e) {
+		e.preventDefault();
+		
 		let commentId = $(this).data('comment-id');
-		alert(commentId);
+		
+		// ajax 댓글 삭제
+		$.ajax({
+			type:"DELETE"
+			, url:"/comment/delete"
+			, data:{"commentId":commentId}
+			, success:function(data) {
+				if (data.code == 100) {
+					location.reload();
+				} else {
+					alert(data.errorMessage);
+				}
+			}
+			, error:function(e) {
+				alert("댓글 삭제에 실패했습니다. 관리자에게 문의해주세요");
+			}
+		});
 	});
 }); //-- ready 끝
 </script>

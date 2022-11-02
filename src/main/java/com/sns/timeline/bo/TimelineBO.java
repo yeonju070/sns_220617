@@ -63,6 +63,9 @@ public class TimelineBO {
 			// 좋아요 개수
 			card.setLikeCount(likeBO.getLikeCountByPostIdOrUserId(post.getId(), null));
 			
+			// 댓글 개수
+			card.setCommentCount(commentBO.getCommentByPostIdOrUserId(post.getId(), null));
+			
 			// 카드 리스트에 채우기
 			cardViewList.add(card);
 		}

@@ -20,6 +20,7 @@ public class CommentBO {
 	@Autowired
 	private UserBO userBO;
 	
+	// 댓글 만드는 메소드
 	public void createComment(int userId, int postId, String content) {
 		commentDAO.insertComment(userId, postId, content);
 	}
@@ -38,7 +39,7 @@ public class CommentBO {
 		// 댓글 목록 가져온다.(원본)
 		List<Comment> commentList = getCommentListByPostId(postId);
 		
-		// 반복문 순회   => CommentView   => List<CommentView>에 채운다.
+		// 반복문 순회 => CommentView => List<CommentView>에 채운다.
 		for (Comment comment : commentList) {
 			CommentView commentView = new CommentView();
 			commentView.setComment(comment);
@@ -54,7 +55,18 @@ public class CommentBO {
 		return commentViewList;
 	}
 	
+	// 게시글 전체 삭제(댓글 삭제 포함)
 	public void deleteCommentByPostId(int postId) {
 		commentDAO.deleteCommentByPostId(postId);
+	}
+	
+	// 댓글 단독 삭제
+	public void deleteCommentBYCommentIdAndUserId(int commentId, int userId) {
+		commentDAO.deleteCommentBYCommentIdAndUserId(commentId, userId);
+	}
+	
+	// 댓글 개수
+	public int getCommentByPostIdOrUserId(int postId, Integer userId) {
+		return commentDAO.selectCommentByPostIdOrUserId(postId, userId);
 	}
 }

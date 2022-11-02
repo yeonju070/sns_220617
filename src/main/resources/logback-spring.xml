@@ -10,7 +10,7 @@
 	</appender>
 
 	<!-- Logger -->
-	<logger name="com.marobiana" level="DEBUG"
+	<logger name="com.sns" level="DEBUG"
 		appender-ref="console" />
 
 	<!-- Root Logger -->

@@ -43,4 +43,25 @@
 		WHERE
 			`postId` = #{postId}
 	</delete>
+	
+	<delete id="deleteCommentBYCommentIdAndUserId" parameterType="map">
+		DELETE
+		FROM
+			`comment`
+		WHERE
+			`id` = #{commentId}
+			AND `userId` = #{userId}
+	</delete>
+	
+	<select id="selectCommentByPostIdOrUserId" parameterType="map" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			`comment`
+		WHERE
+			`postId` = #{postId}
+			<if test="userId != null">
+			AND `userId` = #{userId}
+			</if>
+	</select>
 </mapper>
