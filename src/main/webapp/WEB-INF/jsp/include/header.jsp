@@ -6,7 +6,11 @@
 	class="header-box d-flex justify-content-between align-items-center">
 	<%-- logo --%>
 	<div>
-		<h1 class="font-weight-bold">SNS 게시판</h1>
+		<h1 class="font-weight-bold">
+			<a href="/timeline/timeline_view">
+				<img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/instagram_wordmark_logo_icon_169660.png" alt="인스타 사진" width="230px">
+			</a>
+		</h1>
 	</div>
 
 	<%-- 로그인 정보 --%>

@@ -3,12 +3,12 @@
 a {text-decoration:none; color:#000;}
 a:hover {text-decoration:none; color:#000;}
 
-header {height:80px; background:#dcdcdc;}
+header {height:80px;}
 .header-box {height:100px;}
-.contents {height:auto}
+.contents {height:700px;}
 .contents-box {width:600px;}
 .post-list {height:500px;}
-footer {height:80px; background:#dcdcdc;}
+footer {height:50px;}
 .footer-box {height:80px;}
 
 .sign-up-box {width:550px;}

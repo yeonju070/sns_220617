@@ -20,9 +20,11 @@
 		<header>
 			<jsp:include page="../include/header.jsp" />
 		</header>
+		<hr>
 		<section class="contents">
 			<jsp:include page="../${viewName}.jsp" />
 		</section>
+		<hr>
 		<footer>
 			<jsp:include page="../include/footer.jsp" />
 		</footer>
