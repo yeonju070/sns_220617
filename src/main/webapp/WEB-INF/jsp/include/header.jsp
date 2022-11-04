@@ -2,8 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div
-	class="header-box d-flex justify-content-between align-items-center">
+<div class="header-box d-flex justify-content-between align-items-center">
 	<%-- logo --%>
 	<div>
 		<h1 class="font-weight-bold">
